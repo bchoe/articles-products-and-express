@@ -4,8 +4,10 @@ const article = express.Router();
 
 article.route('/')
   .get((req,res) => {
-    let results = Articles.showAll();
-    res.send(results);
+    let result = Articles.showAll();
+    res.render('index',{
+      result
+    });
   })
 
   .post((req,res) => {
@@ -24,6 +26,27 @@ article.route('/:title')
   .delete((req,res) => {
     Articles.deleteArticle(req.params.title);
     res.json({"success":true});
+  });
+
+ article.route('/:title/edit')
+  .post((req,res) => {
+    req.body.title = req.params.title;
+    Articles.editArticle(req.body);
+  })
+
+  .get((req,res) => {
+    res.render('edit', {
+      article: Articles.oneArticle(req.params)
+    });
+  });
+
+ article.route('/new')
+  .get((req,res) => {
+    res.render('new');
+  })
+
+  .post((req,res) => {
+    Articles.add(req.body);
   });
 
 module.exports = article;

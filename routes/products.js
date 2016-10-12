@@ -7,6 +7,7 @@ product.route('/')
   .get((req,res) => {
     let result = Products.showAll();
     res.render('index', {
+      page: 'Product Page',
       result
     });
   })
@@ -30,13 +31,27 @@ product.route('/:id')
   });
 
 product.route('/:id/edit')
-  .get((req,res) => {
+  .post ((req,res) => {
+    req.body.id = req.params.id;
+    Products.editProduct(req.body);
+  })
 
+  .get((req,res) => {
+    res.render('edit', {
+      page: 'Product Page',
+      product: Products.oneProduct(req.params)
+    });
   });
 
 product.route('/new')
   .get((req,res) => {
+    res.render('new', {
+      page: 'Product Page'
+    });
+  })
 
+  .post((req,res) => {
+    Products.add(req.body);
   });
 
 module.exports = product;

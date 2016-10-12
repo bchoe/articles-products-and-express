@@ -39,10 +39,18 @@ function editProduct(data){
   });
 }
 
+function oneProduct(data){
+  return savedProd.find((element) => {
+    if(element.id === parseFloat(data.id)){
+      return element;
+    }
+  });
+}
 
 module.exports = {
   add,
   showAll,
   deleteProduct,
-  editProduct
+  editProduct,
+  oneProduct
 };

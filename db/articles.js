@@ -38,10 +38,20 @@ function deleteArticle(title){
 
 }
 
+//get response generates new template
+function oneArticle(data){
+  return savedArticles.find((element) => {
+    if(element.title === data.title){
+      return element;
+    }
+  });
+}
+
 
 module.exports = {
   add,
   showAll,
   deleteArticle,
-  editArticle
+  editArticle,
+  oneArticle,
 };
