@@ -1,49 +1,42 @@
 const express = require('express');
-const router = express.Router();
-let newProd = [];
-let productId = 0;
+const Products = require('../db/products');
+const product = express.Router();
 
-router.route('/')
+product.route('/')
+
   .get((req,res) => {
+    let result = Products.showAll();
     res.render('index', {
-      title: 'Products'
+      result
     });
   })
 
   .post((req,res) => {
-    let product = {
-      id: productId,
-      name: req.body.name,
-      price: req.body.price,
-      inventory: req.body.inventory
-    };
-    newProd.push(product);
-    productId += 1;
-    console.log(newProd);
-    res.send(`{"success": true}`);
+    Products.add(req.body);
+    res.json({"success": true});
   });
 
+product.route('/:id')
 
-router.route('/:id')
   .put((req,res) => {
-
+    req.body.id = req.params.id;
+    Products.editProduct(req.body);
+    res.json({"success": true});
   })
 
   .delete((req,res) => {
-
+    Products.deleteProduct(req.params.id);
+    res.json({"success":true});
   });
 
-router.route('/:id/edit')
+product.route('/:id/edit')
   .get((req,res) => {
 
   });
 
-router.route('./new')
+product.route('/new')
   .get((req,res) => {
-    res.render('index', {
 
-    });
   });
 
-
-module.exports = router;
+module.exports = product;

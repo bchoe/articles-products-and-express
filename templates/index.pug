@@ -1,9 +1,22 @@
 extends ./layout.pug
 
-include ./mixins.pug
-
 block title
-  title Articles-products-and-express
+  title #{title}
 
 block body
-  p #{response}
+  - const isLoggedIn = true
+  - var test = "<h3>test</h3>"
+
+  if isLoggedIn
+    h1#header.headerclass #{title}
+    //- displays as plaintext
+    =test
+
+    //- access content from server with #{}
+    p #{response}
+
+    input(placeholder='enter email')
+
+
+  else
+    p Please log in
