@@ -1,5 +1,9 @@
+const db = require('./connect.js');
+
 let savedArticles = [];
 let id = 1;
+
+
 
 //POST
 function add(newArt){
@@ -10,14 +14,20 @@ function add(newArt){
     author: newArt.author,
     urlTitle: encodeURI(newArt.title)
   };
-  savedArticles.push(articleTemp);
+  return db.query('INSERT INTO articles (title, body, author, url_title) VALUES (${title}, ${body}, ${author}, ${urlTitle})', articleTemp)
+    .catch(error => {
+      console.error(error);
+    });
+
 }
 
 //GET
 function showAll(){
-  console.log("savedArticles*****:", savedArticles);
-  return savedArticles;
-}
+  return db.query('SELECT * FROM articles', showAll)
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
 //PUT request
 function editArticle(data){
@@ -53,5 +63,5 @@ module.exports = {
   showAll,
   deleteArticle,
   editArticle,
-  oneArticle,
+  oneArticle
 };

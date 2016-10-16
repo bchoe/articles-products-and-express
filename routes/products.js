@@ -5,16 +5,20 @@ const product = express.Router();
 product.route('/')
 
   .get((req,res) => {
-    let result = Products.showAll();
-    res.render('index', {
-      page: 'Product Page',
-      result
-    });
+    let result = Products.showAll()
+      .then(result => {
+        res.render('index',{
+        page: 'Product Page',
+        result
+        });
+      });
   })
 
   .post((req,res) => {
-    Products.add(req.body);
-    res.json({"success": true});
+    Products.add(req.body)
+    .then(()=> {
+      res.send({"success": true});
+    });
   });
 
 product.route('/:id')
@@ -34,12 +38,14 @@ product.route('/:id/edit')
   .post ((req,res) => {
     req.body.id = req.params.id;
     Products.editProduct(req.body);
+    res.json({"success":true});
   })
 
   .get((req,res) => {
     res.render('edit', {
       page: 'Product Page',
       product: Products.oneProduct(req.params)
+
     });
   });
 
@@ -51,7 +57,10 @@ product.route('/new')
   })
 
   .post((req,res) => {
-    Products.add(req.body);
+    Products.add(req.body)
+    .then(()=> {
+      res.send({"success": true});
+    });
   });
 
 module.exports = product;

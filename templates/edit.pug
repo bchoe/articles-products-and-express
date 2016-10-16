@@ -7,14 +7,22 @@ block body
   if page == "Product Page"
     h1#header(style={color:"green"}) Please Update Product
     form(action="#" method="post")
+      p New Name
       input(placeholder=product.name name="name")
+      p New Price
       input(placeholder=product.price name="price")
+      P New Inventory
       input(placeholder=product.inventory name="inventory")
+      br
       button#send Send
   else
     h1#header(style={color:"green"}) Please Update Article
     form(action="#" method="post")
+      P New Title
       input(placeholder=article.title name="title")
+      P New Body
       input(placeholder=article.body name="body")
+      P New Author
       input(placeholder=article.author name="author")
+      br
       button#send Send

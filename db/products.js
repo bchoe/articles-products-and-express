@@ -1,7 +1,10 @@
+const db = require('./connect.js');
+
 let savedProd = [];
 let id = 1;
 
 //POST request
+
 function add(newProduct){
   console.log(newProduct);
   let productTemp = {
@@ -11,14 +14,19 @@ function add(newProduct){
     inventory: newProduct.inventory
   };
   id ++;
-  savedProd.push(productTemp);
+  return db.query('INSERT INTO products (name, price, inventory) VALUES (${name}, ${price}, ${inventory})', productTemp)
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 //GET request
 function showAll(){
-  console.log("saved product*****:",savedProd);
-  return savedProd;
-}
+  return db.query('SELECT * FROM products', showAll)
+    .catch(error => {
+      console.error(error);
+    });
+  }
 
 //DELETE request
 function deleteProduct(id){
@@ -30,7 +38,9 @@ function deleteProduct(id){
 //PUT request
 function editProduct(data){
   return savedProd = savedProd.map((element)=> {
+    console.log("element*******",element);
     if(element.name === parseFloat(data.id)){
+      console.log("found***", element);
       element.name = data.name;
       element.inventory = data.inventory;
       element.price = data.price;

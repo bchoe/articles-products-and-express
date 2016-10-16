@@ -3,18 +3,21 @@ const Articles = require('../db/articles');
 const article = express.Router();
 
 article.route('/')
+
   .get((req,res) => {
-    let result = Articles.showAll();
-    res.render('index',{
-      result
-    });
+    let result = Articles.showAll()
+      .then(result => {
+        res.render('index',{
+        result
+        });
+      });
   })
-
   .post((req,res) => {
-    Articles.add(req.body);
-    res.json({"success":true});
+    Articles.add(req.body)
+    .then(() => {
+      res.send({"success":true});
+    });
   });
-
 
 article.route('/:title')
   .put((req,res) => {
@@ -46,7 +49,10 @@ article.route('/:title')
   })
 
   .post((req,res) => {
-    Articles.add(req.body);
+    Articles.add(req.body)
+    .then(()=> {
+      res.send({"success":true});
+    });
   });
 
 module.exports = article;
