@@ -25,27 +25,37 @@ product.route('/:id')
 
   .put((req,res) => {
     req.body.id = req.params.id;
-    Products.editProduct(req.body);
-    res.json({"success": true});
+    Products.editProduct(req.body)
+    .then(() => {
+      res.send({"success":true});
+    });
   })
 
   .delete((req,res) => {
-    Products.deleteProduct(req.params.id);
-    res.json({"success":true});
+    Products.deleteProduct(req.params.id)
+    .then(() => {
+      res.send({"success":true});
+    });
   });
 
 product.route('/:id/edit')
   .post ((req,res) => {
     req.body.id = req.params.id;
-    Products.editProduct(req.body);
-    res.json({"success":true});
+    Products.editProduct(req.body)
+    .then(() => {
+      res.send({"success":true});
+    });
   })
 
   .get((req,res) => {
-    res.render('edit', {
-      page: 'Product Page',
-      product: Products.oneProduct(req.params)
+    Products.oneProduct(req.params)
+    .then((products) => {
+      console.log('products: ',products);
+      res.render('edit', {
+        page: 'Product Page',
 
+        product: products[0]
+      });
     });
   });
 

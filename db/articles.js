@@ -1,13 +1,11 @@
 const db = require('./connect.js');
 
-let savedArticles = [];
 let id = 1;
 
 
 
 //POST
 function add(newArt){
-  console.log(newArt);
   let articleTemp = {
     title: newArt.title,
     body: newArt.body,
@@ -31,30 +29,27 @@ function showAll(){
 
 //PUT request
 function editArticle(data){
-  return savedArticles = savedArticles.map((element)=> {
-    if(element.title === data.title){
-      element.body = data.body;
-      element.author = data.author;
-    }
-    return element;
-  });
+  return db.query('UPDATE articles SET title = ${title}, body = ${body}, author = ${author} WHERE title = ${title}', data)
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 //DELETE request
 function deleteArticle(title){
-  return savedArticles = savedArticles.filter((element) => {
-    return element.title !== title;
-  });
 
+  return db.query('DELETE FROM articles WHERE title =\'$1#\'', title)
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 //get response generates new template
 function oneArticle(data){
-  return savedArticles.find((element) => {
-    if(element.title === data.title){
-      return element;
-    }
-  });
+  return db.query('SELECT * FROM articles WHERE title = title', data)
+    .catch(error => {
+      console.error(error);
+    });
 }
 
 
