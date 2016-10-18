@@ -1,10 +1,8 @@
 const db = require('./connect.js');
 
-
 let id = 1;
 
 //POST request
-
 function add(newProduct){
   console.log(newProduct);
   let productTemp = {

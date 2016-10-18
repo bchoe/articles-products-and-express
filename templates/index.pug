@@ -7,11 +7,15 @@ block title
 block body
   if page == "Product Page"
     h1#header(style={color:"green"}) This is the Product HOMEPAGE
+    button#home
+      a(href="/articles") To Articles Homepage
 
     ul.products
       +productList(result)
   else
     h1#header(style={color:"green"}) This is the Article HOMEPAGE
+    button#home
+      a(href="/products") To Products Homepage
 
     ul.products
       +articleList(result)
